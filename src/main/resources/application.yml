@@ -3,24 +3,28 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   application:
-    name: bestbookms
+    name: rantalms
   profiles:
     active: default
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: test
+  datasource:
+    url: jdbc:postgresql://localhost:5432/rantalms
+    username: rantalms
+    password: rantalms_password
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: rental
 
 server:
   port: 8084
@@ -28,3 +32,13 @@ server:
 logging:
   level:
     org.hibernate.SQL: debug
+
+kafka:
+  topics:
+    producer:
+      rental-rent: rental_rent
+      rental-return: rental_return
+      overdue-clear: overdue_clear
+      point-use: point_use
+    consumer:
+      rental-result: rental_result
