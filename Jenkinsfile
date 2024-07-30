@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        APP_NAME = 'MSA-Member'
+        APP_NAME = 'MSA-BestBook'
         DEPLOY_PATH = '/opt/springapps/MSA-BestBook'
         JENKINS_USER = 'appuser'
     }
